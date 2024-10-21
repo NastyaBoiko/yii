@@ -1,0 +1,14 @@
+img {
+    padding: 7px;
+    border: 2px solid navy;
+}
+
+.logo {
+    background-image: url("/img/dragon.jpg");
+    min-width: 50px;
+    display: inline-block;
+}
+
+.color-panel {
+    background-color: blueviolet;
+}
