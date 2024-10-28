@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Symfony\Component\VarDumper\VarDumper;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
@@ -124,5 +125,28 @@ class User extends ActiveRecord implements IdentityInterface
     public function validateAuthKey($authKey)
     {
         return $this->getAuthKey() === $authKey;
+    }
+
+    public static function findByUsername($login)
+    {
+        return self::findOne(['login' => $login]);
+    }
+
+    public function validatePassword($password)
+    {
+        // VarDumper::dump($password); 
+        // VarDumper::dump($this->attributes); die;
+
+        return Yii::$app->security->validatePassword($password, $this->password);
+    }
+
+    public function getIsAdmin(): bool
+    {
+        return $this->role_id == Role::getRoleId('admin');
+    }
+
+    public function getUserLogin(): string
+    {
+        return $this->login;
     }
 }

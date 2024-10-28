@@ -22,9 +22,9 @@ use yii\bootstrap5\Html;
 
             <?= $form->field($model, 'phone') ?>
 
-            <?= $form->field($model, 'password') ?>
+            <?= $form->field($model, 'password')->passwordInput() ?>
 
-            <?= $form->field($model, 'password_repeat') ?>
+            <?= $form->field($model, 'password_repeat')->passwordInput() ?>
 
             <?= $form->field($model, 'rules')->checkbox() ?>
 
