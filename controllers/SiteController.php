@@ -82,7 +82,9 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return Yii::$app->user->identity->isAdmin
+                    ? $this->redirect('/admin')
+                    : $this->goHome();
         }
 
         $model->password = '';
@@ -136,10 +138,14 @@ class SiteController extends Controller
         $model = new RegisterForm();
 
         // if ($this->request->isPost)
+        // Yii::$app->request->isPost можно удалить load с пустым массивом вернет false
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
             if ($user = $model->register()) {
                 Yii::$app->user->login($user, 60*60);
-                return $this->goHome();
+
+                return Yii::$app->user->identity->isAdmin
+                            ? $this->redirect('/admin')
+                            : $this->goHome();
                 // VarDumper::dump($user, 10, true); die;
             }
             // VarDumper::dump(Yii::$app->request->post(), 10, true); 
