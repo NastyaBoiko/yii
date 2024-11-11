@@ -9,6 +9,7 @@ $config = [
     'bootstrap' => ['log'],
     'name' => 'my company',
     'language' => 'ru-RU',
+    'defaultRoute' => 'catalog2',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
@@ -56,6 +57,10 @@ $config = [
         'admin' => [
             'class' => 'app\modules\admin\Module',
         ],
+        'account' => [
+            'class' => 'app\modules\account\Module',
+        ],
+
     ],
     'params' => $params,
 ];

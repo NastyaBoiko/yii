@@ -24,6 +24,8 @@ use Yii;
  */
 class Product extends \yii\db\ActiveRecord
 {
+    public $imageFile;
+
     /**
      * {@inheritdoc}
      */
@@ -38,12 +40,13 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'photo', 'price', 'description', 'category_id'], 'required'],
+            [['title', 'price', 'description', 'category_id'], 'required'],
             [['price', 'weight', 'kilocalories'], 'number'],
             [['count', 'like', 'dislike', 'category_id'], 'integer'],
             [['description'], 'string'],
             [['title', 'photo', 'shelf_life'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
+            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
         ];
     }
 
@@ -54,17 +57,15 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'photo' => 'Photo',
-            'price' => 'Price',
-            'count' => 'Count',
-            'like' => 'Like',
-            'dislike' => 'Dislike',
-            'weight' => 'Weight',
-            'kilocalories' => 'Kilocalories',
-            'shelf_life' => 'Shelf Life',
-            'description' => 'Description',
-            'category_id' => 'Category ID',
+            'title' => 'Наименование',
+            'photo' => 'Изображение',
+            'price' => 'Цена',
+            'count' => 'Количество',
+            'weight' => 'Вес',
+            'kilocalories' => 'Кл. калории',
+            'shelf_life' => 'Срок годности',
+            'description' => 'Описание',
+            'category_id' => 'Категория',
         ];
     }
 
@@ -76,5 +77,24 @@ class Product extends \yii\db\ActiveRecord
     public function getCategory()
     {
         return $this->hasOne(Category::class, ['id' => 'category_id']);
+    }
+
+    public function upload(): bool
+    {
+        $result = false;
+        if ($this->validate()) {
+            $fileName = Yii::$app->user->id 
+                . '_'
+                . time()
+                . '_'
+                . Yii::$app->security->generateRandomString(10)
+                . '.'
+                . $this->imageFile->extension;
+            $this->imageFile->saveAs('img/' . $fileName);
+            $this->photo = $fileName;
+            $result = true;
+        }
+
+        return $result;
     }
 }

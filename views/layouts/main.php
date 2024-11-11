@@ -42,6 +42,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         'options' => ['class' => 'navbar-nav'],
         'items' => [
             // ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => 'Каталог', 'url' => ['/catalog2']],
+            ['label' => 'Каталог light', 'url' => ['/catalog']],
             ['label' => 'About', 'url' => ['/site/about']],
             // ['label' => 'Contact', 'url' => ['/site/contact']],
             // ['label' => 'my page', 'url' => ['/my-first/hello']],
@@ -52,6 +54,11 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
             !Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin
                 ? ['label' => 'Панель управления', 'url' => ['/admin']]
                 : '',
+
+            !Yii::$app->user->isGuest && !Yii::$app->user->identity->isAdmin
+                ? ['label' => 'Личный кабинет', 'url' => ['/account']]
+                : '',
+                
             Yii::$app->user->isGuest
                 ? ['label' => 'Вход', 'url' => ['/site/login']]
                 : '<li class="nav-item">'
