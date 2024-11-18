@@ -17,6 +17,7 @@ use yii\bootstrap5\Html;
         <p class="card-text"><?= $model->category->title ?></p>
         <div>
             <?= Html::a('Просмотр', ['view', 'id' => $model->id], ['class' => 'btn btn-outline-primary']) ?>
+            <?= Html::a('Заказать', ['/account/order/create', 'product_id' => $model->id], ['class' => 'btn btn-outline-success w-100 mt-2']) ?>
         </div>
         <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
     </div>
