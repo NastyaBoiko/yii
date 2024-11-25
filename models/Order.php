@@ -30,6 +30,7 @@ class Order extends \yii\db\ActiveRecord
 {
     const SCENARIO_OUTPOST = 'outpost';
     const SCENARIO_COMMENT = 'comment';
+    const SCENARIO_CANCEL = 'cancel';
 
     public bool $check = false;
 
@@ -56,11 +57,12 @@ class Order extends \yii\db\ActiveRecord
             [['outpost_id'], 'exist', 'skipOnError' => true, 'targetClass' => Outpost::class, 'targetAttribute' => ['outpost_id' => 'id']],
             [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => Status::class, 'targetAttribute' => ['status_id' => 'id']],
 
-            [['date_order'], 'date', 'format' => 'php:Y-m-d', 'min' => date('Y-m-d')],
-            [['time_order'], 'time', 'format' => 'php:H:i', 'min' => '09:00', 'max' => '20:00'],
+            [['date_order', 'time_order'], 'safe'],
+            // [['date_order'], 'date', 'format' => 'php:Y-m-d', 'min' => date('Y-m-d')],
             ['check', 'boolean'],
             ['outpost_id', 'required', 'on' => self::SCENARIO_OUTPOST],
             ['comment', 'required', 'on' => self::SCENARIO_COMMENT],
+            ['comment_admin', 'required', 'on' => self::SCENARIO_CANCEL],
 
         ];
     }

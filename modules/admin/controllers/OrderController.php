@@ -5,9 +5,11 @@ namespace app\modules\admin\controllers;
 use app\models\Order;
 use app\models\Status;
 use app\modules\admin\models\OrderSearch;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\VarDumper;
 
 /**
  * OrderController implements the CRUD actions for Order model.
@@ -63,27 +65,6 @@ class OrderController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new Order model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
-     */
-    public function actionCreate()
-    {
-        $model = new Order();
-
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            $model->loadDefaultValues();
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
 
     /**
      * Updates an existing Order model.
@@ -92,17 +73,43 @@ class OrderController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionCancel($id)
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model->scenario = Order::SCENARIO_CANCEL;
+
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            $model->status_id = Status::getStatusId('Отмена');
+            Yii::$app->session->setFlash('warning', 'Заказ отменен');
+
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                VarDumper::dump($model->errors, 10, true); die;
+            }
         }
 
-        return $this->render('update', [
+        return $this->render('cancel', [
             'model' => $model,
         ]);
+    }
+
+    public function actionApply($id)
+    {
+        if ($model = $this->findModel($id)) {
+            if ($model->status_id == Status::getStatusId('Новый')) {
+                $model->status_id = Status::getStatusId('Готов к выдаче');
+
+                Yii::$app->session->setFlash('success', 'Заказ подтвержден');
+
+                if (! $model->save(false)) {
+                    VarDumper::dump($model->errors, 10, true); die;
+                }
+            }
+        }
+
+        return $this->redirect(['index']);
     }
 
     /**

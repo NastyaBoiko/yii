@@ -15,6 +15,7 @@ use yii\widgets\Pjax;
 
 $this->title = 'Панель администратора';
 $this->params['breadcrumbs'][] = $this->title;
+$statusesTitle = array_flip($statuses);
 ?>
 <div class="order-index">
 
@@ -94,11 +95,22 @@ $this->params['breadcrumbs'][] = $this->title;
             //'pay_type_id',
             //'comment_admin',
             [
-                'label' => 'Действия',
+                'label' => 'Действия с заказом',
                 'format' => 'raw',
-                'value' => function($model) {
+                'value' => function($model) use ($statusesTitle) {
                     $view = Html::a('Просмотр', ['view', 'id' => $model->id], ['class' => 'btn btn-outline-primary']);
-                    $delete = '';
+                    $cancel = '';
+                    $apply = '';
+
+                    if ($model->status_id == $statusesTitle['Новый']) {
+                        $apply = Html::a('Подтвердить', ['apply', 'id' => $model->id], ['class' => 'btn btn-outline-success',]);
+                        $cancel = Html::a('Отменить', ['cancel', 'id' => $model->id], ['class' => 'btn btn-outline-warning',]);
+                                //     'data' => [
+                                //         'confirm' => 'Точно ли хотите удалить?',
+                                //         'method' => 'post',
+                                //     ],
+                                // ])
+                    }
                     // $delete = $model->status_id == Status::getStatusId('Новый') 
                     //     ? Html::a('Удалить', ['delete', 'id' => $model->id], [
                     //         'class' => 'btn btn-outline-danger',
@@ -108,7 +120,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     //         ],
                     //     ])
                     //     : '';
-                    return "<div class='d-flex gap-3'>$view $delete</div>";
+                    return "<div class='d-flex gap-3'>$view $apply $cancel</div>";
                 }
             ],
         ],

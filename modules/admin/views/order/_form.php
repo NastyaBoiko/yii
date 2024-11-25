@@ -12,28 +12,11 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'date_order')->textInput() ?>
-
-    <?= $form->field($model, 'time_order')->textInput() ?>
-
-    <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'comment')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'user_id')->textInput() ?>
-
-    <?= $form->field($model, 'status_id')->textInput() ?>
-
-    <?= $form->field($model, 'product_id')->textInput() ?>
-
-    <?= $form->field($model, 'pay_type_id')->textInput() ?>
-
-    <?= $form->field($model, 'outpost_id')->textInput() ?>
-
     <?= $form->field($model, 'comment_admin')->textInput(['maxlength' => true]) ?>
 
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+    <div class="form-group d-flex justify-content-between">
+        <?= Html::a('Назад', ['index'], ['class' => 'btn btn-info']) ?>
+        <?= Html::submitButton('Отменить заказ', ['class' => 'btn btn-warning']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

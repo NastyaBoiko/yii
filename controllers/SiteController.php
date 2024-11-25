@@ -82,9 +82,11 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            Yii::$app->session->setFlash('info', 'Вы успешно авторизовались в системе');
+
             return Yii::$app->user->identity->isAdmin
-                    ? $this->redirect('/admin')
-                    : $this->goHome();
+                    ? $this->redirect('/admin-panel')
+                    : $this->redirect('/account');
         }
 
         $model->password = '';
@@ -101,6 +103,8 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
+
+        Yii::$app->session->setFlash('info', 'Вы успешно вышли из системы');
 
         return $this->goHome();
     }
@@ -141,11 +145,15 @@ class SiteController extends Controller
         // Yii::$app->request->isPost можно удалить load с пустым массивом вернет false
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
             if ($user = $model->register()) {
-                Yii::$app->user->login($user, 60*60);
+                if (Yii::$app->user->login($user, 60*60)) {
 
-                return Yii::$app->user->identity->isAdmin
-                            ? $this->redirect('/admin')
-                            : $this->goHome();
+                    Yii::$app->session->setFlash('info', 'Вы успешно зарегистрировались в системе');
+                    return Yii::$app->user->identity->isAdmin
+                                ? $this->redirect('/admin-panel')
+                                : $this->redirect('/account');
+                }
+                
+
                 // VarDumper::dump($user, 10, true); die;
             }
             // VarDumper::dump(Yii::$app->request->post(), 10, true); 
