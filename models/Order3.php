@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\VarDumper;
 
 /**
  * This is the model class for table "order".
@@ -56,11 +57,12 @@ class Order3 extends \yii\db\ActiveRecord
             [['outpost_id'], 'exist', 'skipOnError' => true, 'targetClass' => Outpost::class, 'targetAttribute' => ['outpost_id' => 'id']],
             [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => Status::class, 'targetAttribute' => ['status_id' => 'id']],
 
-            [['date_order'], 'date', 'format' => 'php:Y-m-d', 'min' => date('Y-m-d')],
-            [['time_order'], 'time', 'format' => 'php:H:i', 'min' => '09:00', 'max' => '20:00'],
             ['check', 'boolean'],
             ['outpost_id', 'required', 'on' => self::SCENARIO_OUTPOST],
             ['comment', 'required', 'on' => self::SCENARIO_COMMENT],
+
+            [['date_order'], 'validateDateOrder'],
+
 
         ];
     }
@@ -84,6 +86,38 @@ class Order3 extends \yii\db\ActiveRecord
             'outpost_id' => 'Пункт выдачи',
             'comment_admin' => 'Причина отказа',
         ];
+    }
+
+    public function validateDateOrder($attribute, $params)
+    {
+        $date1 = new \DateTime("now");
+        $date2 = new \DateTime($this->date_order);
+
+        if ($date2 >= $date1) {
+            $model = self::findOne([
+                    'date_order' => $this->date_order,
+                    'time_order' => $this->time_order,
+                    'status_id' => Status::getStatusId('Новый'),
+                ]);
+
+            // $model = self::find()
+            //     ->where([
+            //         'date_order' => $this->date_order,
+            //         'time_order' => $this->time_order,
+            //         'status_id' => Status::getStatusId('Новый'),
+            //     ])
+            //     ->asArray()
+            //     ->all();
+
+            // VarDumper::dump($model->createCommand()->rawSql, 10, true); die;
+
+            if ($model) {
+                $this->addError($attribute, 'Выбранная дата и время заняты');
+            }
+        } else {
+            $this->addError($attribute, 'Дата выбрана неправильно');
+        }
+
     }
 
     /**

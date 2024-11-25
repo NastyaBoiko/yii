@@ -20,7 +20,9 @@ use yii\bootstrap5\Html;
 
             <?= $form->field($model, 'email') ?>
 
-            <?= $form->field($model, 'phone') ?>
+            <?= $form->field($model, 'phone')->widget(\yii\widgets\MaskedInput::class, [
+                'mask' => '+7(999)-99-99',
+            ]) ?>
 
             <?= $form->field($model, 'password')->passwordInput() ?>
 

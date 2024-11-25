@@ -16,3 +16,56 @@ img {
 .btn-category {
     background-color: rgb(78, 81, 247);
 }
+
+.is-invalid {
+    animation: invalid 0.8s ease 1;
+}
+
+.is-valid {
+    animation: isvalid 1s ease 1;
+}
+
+.invalid-feedback {
+    animation: feedback 1s ease 1;
+}
+
+#main {
+    animation: main 1.5s ease 1;
+}
+
+
+@keyframes main {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes feedback {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+@keyframes isvalid {
+    0%, 50%, 100% {
+        box-shadow: 0 0 1px rgb(83, 205, 83);
+    }
+    25%, 75% {
+        box-shadow: 0 0 7px rgb(23, 113, 23);
+    }
+}
+
+@keyframes invalid {
+    0%, 50%, 100% {
+        transform: translateY(0);
+    }
+    25%, 75% {
+        transform: translateY(-10px);
+    }
+}
