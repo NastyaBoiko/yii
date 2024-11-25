@@ -56,7 +56,7 @@ $config = [
     'modules' => [
         'admin-panel' => [
             'class' => 'app\modules\admin\Module',
-            'defaultRoute' => 'product/index',
+            'defaultRoute' => 'order/index',
         ],
         'account' => [
             'class' => 'app\modules\account\Module',

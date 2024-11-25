@@ -71,13 +71,13 @@ class Order extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'id' => '№ заказа',
             'created_at' => 'Время создания заказа',
             'date_order' => 'Дата получения',
             'time_order' => 'Время получения',
             'address' => 'Адрес',
             'comment' => 'Комментарий к заказу',
-            'user_id' => 'User ID',
+            'user_id' => 'ФИО клиента',
             'status_id' => 'Стастус заказа',
             'product_id' => 'Product ID',
             'pay_type_id' => 'Тип оплаты',

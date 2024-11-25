@@ -149,4 +149,16 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->login;
     }
+
+    public function getFio(): string
+    {
+        return $this->surname 
+                . ' '
+                . mb_substr($this->name, 0, 1)
+                . '.'
+                . ($this->patronymic 
+                    ? mb_substr($this->patronymic, 0, 1) . '.'
+                    : '')
+                ;
+    }
 }
