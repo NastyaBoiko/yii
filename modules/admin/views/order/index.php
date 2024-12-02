@@ -29,7 +29,9 @@ $statusesTitle = array_flip($statuses);
     <div class="mt-5 mb-3">
         <h3>Управление заказами</h3>
     </div>
-    <?php Pjax::begin(); ?>
+    <?php Pjax::begin([
+            'enablePushState' => false,
+        ]); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([

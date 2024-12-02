@@ -29,7 +29,7 @@ img {
     animation: feedback 1s ease 1;
 }
 
-#main {
+#main, div[data-pjax-container]>div  {
     animation: main 1.5s ease 1;
 }
 

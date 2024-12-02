@@ -10,11 +10,11 @@ use yii\bootstrap5\Html;
     <div class="card-body">
         <h5 class="card-title">
         <?= Html::a(
-                $model->title, 
+                Html::encode($model->title), 
                 ['view', 'id' => $model->id],
                 ['class' => 'text-decoration-none']) ?>
         </h5>
-        <p class="card-text"><?= $model->category->title ?></p>
+        <p class="card-text"><?= Html::encode($model->category->title) ?></p>
         <div>
             <?= Html::a('Просмотр', ['view', 'id' => $model->id], ['class' => 'btn btn-outline-primary']) ?>
             <?= !Yii::$app->user->isGuest && !Yii::$app->user->identity->isAdmin

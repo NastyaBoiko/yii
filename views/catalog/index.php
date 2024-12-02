@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'value' => fn($model) => 
                     "<div>"
-                        . $model->title
+                        . Html::encode($model->title) 
                         . Html::img('/img/' . $model->photo, ['class' => 'w-25 d-block mt-2', 'alt' => 'photo'])
                         . "</div>",
             ],

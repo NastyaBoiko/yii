@@ -3,7 +3,10 @@ $(() => {
         $.pjax.reload('#form-order-pjax',
             {
                 method: "POST",
-                data: $('#form-order').serialize()
+                data: $('#form-order').serialize(),
+                push: false,
+                replace: false,
+                timeout: 5000,
             }
         )
     )
