@@ -101,6 +101,16 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * Gets query for [[ReactionUsers]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getReactionUsers()
+    {
+        return $this->hasMany(ReactionUser::class, ['user_id' => 'id']);
+    }
+
+    /**
      * Finds an identity by the given token.
      *
      * @param string $token the token to be looked for

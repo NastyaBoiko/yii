@@ -18,12 +18,22 @@ use yii\bootstrap5\Html;
         <div>
             <div class="d-flex justify-content-between">
                 <?= Html::a('Просмотр', ['view', 'id' => $model->id], ['class' => 'btn btn-outline-primary']) ?>
+
+                <div>
+                    👍(<span class="text-success"><?= $model->product->like ?></span>)
+                </div>
+
+                <div>
+                    👎(<span class="text-danger"><?= $model->product->dislike ?></span>)
+                </div>
+                
+
                 <?= (!Yii::$app->user->isGuest && !Yii::$app->user->identity->isAdmin)
                     ? Html::a(
                         empty($model->status)
                             ? '🤍'
                             : '❤'
-                        , ['index', 'id' => $model->product->id, 'action' => 'favourite'], ['class' => 'text-decoration-none']) 
+                        , ['index', 'id' => $model->product->id, 'action' => 'favourite'], ['class' => 'text-decoration-none btn-favourite']) 
                     : '' 
                 ?>
             </div>

@@ -99,6 +99,16 @@ class Product extends \yii\db\ActiveRecord
         return $this->hasMany(Order::class, ['product_id' => 'id']);
     }
 
+    /**
+     * Gets query for [[ReactionUsers]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getReactionUsers()
+    {
+        return $this->hasMany(ReactionUser::class, ['product_id' => 'id']);
+    }
+
     public function upload(): bool
     {
         $result = false;
@@ -117,4 +127,5 @@ class Product extends \yii\db\ActiveRecord
 
         return $result;
     }
+
 }

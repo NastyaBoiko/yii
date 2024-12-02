@@ -5,24 +5,24 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "favourite".
+ * This is the model class for table "reaction_user".
  *
  * @property int $id
- * @property int $user_id
  * @property int $product_id
- * @property int $status
+ * @property int $user_id
+ * @property int|null $status
  *
  * @property Product $product
  * @property User $user
  */
-class Favourite extends \yii\db\ActiveRecord
+class ReactionUser extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'favourite';
+        return 'reaction_user';
     }
 
     /**
@@ -31,8 +31,8 @@ class Favourite extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'product_id'], 'required'],
-            [['user_id', 'product_id', 'status'], 'integer'],
+            [['product_id', 'user_id'], 'required'],
+            [['product_id', 'user_id', 'status'], 'integer'],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::class, 'targetAttribute' => ['product_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -45,8 +45,9 @@ class Favourite extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_id' => 'User ID',
             'product_id' => 'Product ID',
+            'user_id' => 'User ID',
+            'status' => 'Status',
         ];
     }
 
@@ -70,24 +71,50 @@ class Favourite extends \yii\db\ActiveRecord
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
-    public static function changeForUser(int $product_id): int
+    
+    public static function changeReaction(int $product_id, string $reaction): int
     {
         $model = self::findOne([
-            'user_id' => Yii::$app->user->id,
             'product_id' => $product_id,
+            'user_id' => Yii::$app->user->id,
         ]);
 
-        if ($model) {
-            $model->status = (int) !$model->status;
-            $model->save();
-        } else {
+
+        if (!$model) {
             $model = new self;
             $model->user_id = Yii::$app->user->id;
             $model->product_id = $product_id;
-            $model->status = 1;
-            $model->save();
         }
 
-        return $model->status;
+        $product = Product::findOne(['id' => $product_id]);
+
+        if ($reaction == 'like') {
+            if ($model->status !== null) {
+                $model->status = null;
+                $product->like--;
+
+            } else {
+                $model->status = 1;
+                $product->like++;
+            }
+            $result = $product->like;
+
+        }
+
+        if ($reaction == 'dislike') {
+            if ($model->status !== null) {
+                $model->status = null;
+                $product->dislike--;
+            } else {
+                $model->status = 0;
+                $product->dislike++;
+            }
+            $result = $product->dislike;
+        }
+        
+        $model->save();
+        $product->save();
+        return $result;
     }
+
 }

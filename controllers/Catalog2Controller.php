@@ -6,6 +6,7 @@ use app\models\Category;
 use app\models\Favourite;
 use app\models\Product;
 use app\models\Product2Search;
+use app\models\ReactionUser;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -29,19 +30,32 @@ class Catalog2Controller extends Controller
 
         // VarDumper::dump($this->request->queryParams, 10, true); die;
 
-        if (isset($action)) {
-            switch ($action) {
-                case 'favourite':
-                    Favourite::changeForUser($id);
-                    break;
-            }
-        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'categories' => $categories,
         ]);
+    }
+
+    public function actionReactionClient($id, $reaction)
+    {
+        if (isset($reaction) && isset($id)) {
+            switch ($reaction) {
+                case 'favourite':
+                    return $this->asJson([
+                        'status' => Favourite::changeForUser($id)
+                    ]);
+                    break;
+
+                default:
+                    return $this->asJson([
+                        'count' => ReactionUser::changeReaction($id, $reaction)
+                    ]);
+                    break;
+            }
+        }
+
     }
 
     /**

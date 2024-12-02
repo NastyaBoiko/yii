@@ -17,15 +17,29 @@ use yii\bootstrap5\Html;
         <p class="card-text"><?= Html::encode($model->category->title) ?></p>
         <div>
             <div class="d-flex justify-content-between">
+
+                <div class="gap-3">
+                    <?= (!Yii::$app->user->isGuest && !Yii::$app->user->identity->isAdmin)
+                        ? Html::a("👍(<span class='text-success like-count'>$model->like)</span>", ['reaction-client', 'id' => $model->id, 'reaction' => 'like'], ['class' => 'text-decoration-none btn-like']) 
+                        : '' 
+                    ?>
+                    <?= (!Yii::$app->user->isGuest && !Yii::$app->user->identity->isAdmin)
+                        ? Html::a("👎(<span class='text-danger dislike-count'>$model->dislike</span>)", ['reaction-client', 'id' => $model->id, 'reaction' => 'dislike'], ['class' => 'text-decoration-none btn-dislike']) 
+                        : '' 
+                    ?>
+                    <?= (!Yii::$app->user->isGuest && !Yii::$app->user->identity->isAdmin)
+                        ? Html::a(
+                            empty($model->favourites[0]->status)
+                                ? '🤍'
+                                : '❤'
+                            , ['reaction-client', 'id' => $model->id, 'reaction' => 'favourite'], ['class' => 'text-decoration-none btn-favourite']) 
+                        : '' 
+                    ?>
+                </div>
+
                 <?= Html::a('Просмотр', ['view', 'id' => $model->id], ['class' => 'btn btn-outline-primary']) ?>
-                <?= (!Yii::$app->user->isGuest && !Yii::$app->user->identity->isAdmin)
-                    ? Html::a(
-                        empty($model->favourites[0]->status)
-                            ? '🤍'
-                            : '❤'
-                        , ['index', 'id' => $model->id, 'action' => 'favourite'], ['class' => 'text-decoration-none btn-favorite']) 
-                    : '' 
-                ?>
+
+                
             </div>
             <?= !Yii::$app->user->isGuest && !Yii::$app->user->identity->isAdmin
                 ? Html::a('Заказать', ['/account/order/create', 'product_id' => $model->id], ['class' => 'btn btn-outline-success w-100 mt-2'])

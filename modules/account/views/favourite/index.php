@@ -5,6 +5,7 @@ use yii\bootstrap5\LinkPager;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
+use yii\web\JqueryAsset;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 /** @var yii\web\View $this */
@@ -18,7 +19,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php Pjax::begin(); ?>
+    <?php Pjax::begin([
+        'id' => 'favourite-pjax',
+        'enablePushState' => false,
+        'timeout' => 5000,
+    ]); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= ListView::widget([
@@ -39,3 +44,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php Pjax::end(); ?>
 
 </div>
+
+<?php
+
+$this->registerJsFile('/js/favourite.js', ['depends' => JqueryAsset::class]);
+
+?>
