@@ -16,7 +16,17 @@ use yii\bootstrap5\Html;
         </h5>
         <p class="card-text"><?= Html::encode($model->category->title) ?></p>
         <div>
-            <?= Html::a('Просмотр', ['view', 'id' => $model->id], ['class' => 'btn btn-outline-primary']) ?>
+            <div class="d-flex justify-content-between">
+                <?= Html::a('Просмотр', ['view', 'id' => $model->id], ['class' => 'btn btn-outline-primary']) ?>
+                <?= (!Yii::$app->user->isGuest && !Yii::$app->user->identity->isAdmin)
+                    ? Html::a(
+                        empty($model->favourites[0]->status)
+                            ? '🤍'
+                            : '❤'
+                        , ['index', 'id' => $model->id, 'action' => 'favourite'], ['class' => 'text-decoration-none btn-favorite']) 
+                    : '' 
+                ?>
+            </div>
             <?= !Yii::$app->user->isGuest && !Yii::$app->user->identity->isAdmin
                 ? Html::a('Заказать', ['/account/order/create', 'product_id' => $model->id], ['class' => 'btn btn-outline-success w-100 mt-2'])
                 : "" ?>

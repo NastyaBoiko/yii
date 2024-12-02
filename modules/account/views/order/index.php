@@ -19,7 +19,14 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="order-index">
 
     <h3><?= Html::encode($this->title) ?></h3>
+
+    <div>
+        <?= Html::a('Избранное', ['/account/favourite'], ['class' => 'btn btn-outline-success mt-3']) ?>
+    </div>
+
     <h4 class="mt-4">Заказы</h4>
+
+    
 
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>

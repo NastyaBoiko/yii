@@ -3,11 +3,13 @@
 namespace app\controllers;
 
 use app\models\Category;
+use app\models\Favourite;
 use app\models\Product;
 use app\models\Product2Search;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\VarDumper;
 
 /**
  * Catalog2Controller implements the CRUD actions for Product model.
@@ -19,11 +21,21 @@ class Catalog2Controller extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($action = null, $id = null)
     {
         $searchModel = new Product2Search();
         $dataProvider = $searchModel->search($this->request->queryParams);
         $categories = Category::getCategories();
+
+        // VarDumper::dump($this->request->queryParams, 10, true); die;
+
+        if (isset($action)) {
+            switch ($action) {
+                case 'favourite':
+                    Favourite::changeForUser($id);
+                    break;
+            }
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,

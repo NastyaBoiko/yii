@@ -5,6 +5,7 @@ namespace app\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Product;
+use Yii;
 
 /**
  * Product2Search represents the model behind the search form of `app\models\Product`.
@@ -41,7 +42,14 @@ class Product2Search extends Product
      */
     public function search($params)
     {
-        $query = Product::find()->with('category');
+        $query = Product::find()
+                    ->with([
+                        'category', 
+                        'favourites' => function($query) {
+                            $query->andWhere(['user_id' => Yii::$app->user->id]);
+                        }
+                    ])
+                    ;
 
         // add conditions that should always apply here
 

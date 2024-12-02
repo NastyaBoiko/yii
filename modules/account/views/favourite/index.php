@@ -1,27 +1,25 @@
 <?php
 
-use app\models\Product;
-use yii\bootstrap5\Html;
+use app\models\Favourite;
 use yii\bootstrap5\LinkPager;
+use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 /** @var yii\web\View $this */
-/** @var app\models\Product2Search $searchModel */
+/** @var app\modules\account\models\FavouriteSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Каталог';
+$this->title = 'Избранное';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="product-index">
+<div class="favourite-index">
 
-    <h3><?= Html::encode($this->title) ?></h3>
+    <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php Pjax::begin([
-        'enablePushState' => false,
-    ]); ?>
-    <?php // $this->render('_search', ['model' => $searchModel]); ?>
+    <?php Pjax::begin(); ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
