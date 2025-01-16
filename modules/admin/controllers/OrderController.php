@@ -45,10 +45,18 @@ class OrderController extends Controller
         $dataProvider = $searchModel->search($this->request->queryParams);
         $statuses = Status::getStatuses();
 
+        $model_cancel = null;
+
+        if ($dataProvider->count) {
+            $model_cancel = $dataProvider->models[0];
+            $model_cancel->scenario = $model_cancel::SCENARIO_CANCEL;
+        }
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'statuses' => $statuses,
+            'model_cancel' => $model_cancel,
         ]);
     }
 
@@ -93,6 +101,29 @@ class OrderController extends Controller
         return $this->render('cancel', [
             'model' => $model,
         ]);
+    }
+
+
+    public function actionCancelModal($id)
+    {
+        $model_cancel = $this->findModel($id);
+
+        $model_cancel->scenario = Order::SCENARIO_CANCEL;
+
+        if ($this->request->isPost && $model_cancel->load($this->request->post())) {
+            $model_cancel->status_id = Status::getStatusId('Отмена');
+            
+            if ($model_cancel->save()) {
+                Yii::$app->session->setFlash('cancel-modal-info', "Заказ №$model_cancel->id отменен");
+                $model_cancel->comment_admin = null;
+                return $this->render('_form-modal', [
+                    'model_cancel' => $model_cancel,
+                ]);
+                //return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                VarDumper::dump($model_cancel->errors, 10, true); die;
+            }
+        }
     }
 
     public function actionApply($id)
