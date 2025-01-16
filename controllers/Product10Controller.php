@@ -1,18 +1,17 @@
 <?php
 
-namespace app\modules\account\controllers;
+namespace app\controllers;
 
-use app\models\Category;
-use app\models\Favourite;
-use app\modules\account\models\FavouriteSearch;
+use app\models\Product;
+use app\models\Product10Search;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * FavouriteController implements the CRUD actions for Favourite model.
+ * Product10Controller implements the CRUD actions for Product model.
  */
-class FavouriteController extends Controller
+class Product10Controller extends Controller
 {
     /**
      * @inheritDoc
@@ -33,34 +32,23 @@ class FavouriteController extends Controller
     }
 
     /**
-     * Lists all Favourite models.
+     * Lists all Product models.
      *
      * @return string
      */
-    public function actionIndex($action = null, $id = null)
+    public function actionIndex()
     {
-        $searchModel = new FavouriteSearch();
+        $searchModel = new Product10Search();
         $dataProvider = $searchModel->search($this->request->queryParams);
-
-        if (isset($action)) {
-            switch ($action) {
-                case 'favourite':
-                    Favourite::changeForUser($id);
-                    break;
-            }
-        }
-
-        $categories = Category::getCategories();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'categories' => $categories,
         ]);
     }
 
     /**
-     * Displays a single Favourite model.
+     * Displays a single Product model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -73,13 +61,13 @@ class FavouriteController extends Controller
     }
 
     /**
-     * Creates a new Favourite model.
+     * Creates a new Product model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Favourite();
+        $model = new Product();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -95,7 +83,7 @@ class FavouriteController extends Controller
     }
 
     /**
-     * Updates an existing Favourite model.
+     * Updates an existing Product model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -115,7 +103,7 @@ class FavouriteController extends Controller
     }
 
     /**
-     * Deletes an existing Favourite model.
+     * Deletes an existing Product model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -129,15 +117,15 @@ class FavouriteController extends Controller
     }
 
     /**
-     * Finds the Favourite model based on its primary key value.
+     * Finds the Product model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return Favourite the loaded model
+     * @return Product the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Favourite::findOne(['id' => $id])) !== null) {
+        if (($model = Product::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

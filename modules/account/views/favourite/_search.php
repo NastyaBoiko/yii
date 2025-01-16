@@ -18,11 +18,10 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <?= $form->field($model, 'product_category')->dropDownList($categories, ['prompt' => 'Выберите категорию']) ?>
+    
+    <?= $form->field($model, 'product_title') ?>
 
-    <?= $form->field($model, 'user_id') ?>
-
-    <?= $form->field($model, 'product_id') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

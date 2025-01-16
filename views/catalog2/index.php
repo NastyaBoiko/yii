@@ -19,6 +19,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h3><?= Html::encode($this->title) ?></h3>
 
+    <div class="">
+        <?= Html::a('Топ 10', ['/product10'], ['class' => 'btn btn-outline-primary my-3']) ?>
+    </div>
+
     <?php Pjax::begin([
         'id' => 'catalog-pjax',
         'enablePushState' => false,
