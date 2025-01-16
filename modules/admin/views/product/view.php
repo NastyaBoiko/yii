@@ -8,6 +8,7 @@ use yii\widgets\DetailView;
 
 $this->title = $model->title;
 \yii\web\YiiAsset::register($this);
+
 ?>
 <div class="product-view">
 
@@ -33,7 +34,8 @@ $this->title = $model->title;
             [
                 'attribute' => 'photo',
                 'format' => 'html',
-                'value' => Html::img('/img/' . $model->photo, ['class' => 'w-25', 'alt' => 'photo'])
+                'value' => Html::img('/img/' . ($model->photo ?? $model::NO_PHOTO), ['class' => 'w-25', 'alt' => 'photo']),
+                // 'visible' => (bool) $model->photo,
             ],
             'price',
             'count',

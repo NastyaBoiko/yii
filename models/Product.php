@@ -24,7 +24,9 @@ use Yii;
  */
 class Product extends \yii\db\ActiveRecord
 {
+    const NO_PHOTO = "noimage.jpg";
     public $imageFile;
+    public bool $deleteImage = false;
 
     /**
      * {@inheritdoc}
@@ -46,7 +48,8 @@ class Product extends \yii\db\ActiveRecord
             [['description'], 'string'],
             [['title', 'photo', 'shelf_life'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
-            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
+            ['deleteImage', 'boolean']
         ];
     }
 
@@ -66,6 +69,8 @@ class Product extends \yii\db\ActiveRecord
             'shelf_life' => 'Срок годности',
             'description' => 'Описание',
             'category_id' => 'Категория',
+            'deleteImage' => 'Удалить изображение',
+            'imageFile' => 'Загрузить изображение',
         ];
     }
 
@@ -113,14 +118,32 @@ class Product extends \yii\db\ActiveRecord
     {
         $result = false;
         if ($this->validate()) {
-            $fileName = Yii::$app->user->id 
-                . '_'
-                . time()
-                . '_'
-                . Yii::$app->security->generateRandomString(10)
-                . '.'
-                . $this->imageFile->extension;
-            $this->imageFile->saveAs('img/' . $fileName);
+            if ($this->deleteImage) {
+                $this->photo = null;
+                // unique ? -> unlink
+                $count = self::find()
+                    ->where(['photo' => $this->photo])
+                    ->count()
+                    ;
+                if ($count == 1) {
+
+                }
+                $this->photo = null;
+
+            }
+            if ($this->imageFile) {
+                $fileName = Yii::$app->user->id 
+                    . '_'
+                    . time()
+                    . '_'
+                    . Yii::$app->security->generateRandomString(10)
+                    . '.'
+                    . $this->imageFile->extension;
+                $this->imageFile->saveAs('img/' . $fileName);
+            } else {
+                $fileName = $this->photo ?? self::NO_PHOTO;
+            }
+
             $this->photo = $fileName;
             $result = true;
         }

@@ -35,7 +35,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => fn($model) => 
                     "<div>"
                         . $model->title
-                        . Html::img('/img/' . $model->photo, ['class' => 'w-25 d-block mt-2', 'alt' => 'photo'])
+                        . Html::img('/img/' 
+                        . ($model->photo ?? $model::NO_PHOTO), 
+                        ['class' => 'w-25 d-block mt-2', 'alt' => 'photo'])
                         . "</div>",
             ],
             [

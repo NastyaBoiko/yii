@@ -5,7 +5,7 @@ use yii\bootstrap5\Html;
 <div class="card" style="width: 18rem;">
     <!-- <img src="..." class="card-img-top" alt="..."> -->
     <?= Html::a(
-        Html::img('/img/' . $model->product->photo, ['alt' => 'photo', 'class' => 'card-img-top']), 
+        Html::img('/img/' . ($model->product->photo ?? $model->product::NO_PHOTO), ['alt' => 'photo', 'class' => 'card-img-top']), 
         ['view', 'id' => $model->id]) ?>
     <div class="card-body">
         <h5 class="card-title">
