@@ -10,10 +10,12 @@ use app\models\PayType;
 use app\models\Status;
 use app\modules\account\models\OrderSearch;
 use Yii;
+use yii\bootstrap5\ActiveForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\VarDumper;
+use yii\web\Response;
 
 /**
  * OrderController implements the CRUD actions for Order model.
@@ -165,6 +167,11 @@ class OrderController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
+                if (Yii::$app->request->isAjax) {
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    return ActiveForm::validate($model);
+                }
+
                 if ($model->check) {
                     $model->scenario = Order::SCENARIO_COMMENT;
                     $model->outpost_id = null;

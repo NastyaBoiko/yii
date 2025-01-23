@@ -16,7 +16,7 @@ use yii\bootstrap5\Html;
 
             <?= $form->field($model, 'patronymic') ?>
 
-            <?= $form->field($model, 'login') ?>
+            <?= $form->field($model, 'login', ['enableAjaxValidation' => true]) ?>
 
             <?= $form->field($model, 'email') ?>
 

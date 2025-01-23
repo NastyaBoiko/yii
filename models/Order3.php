@@ -62,7 +62,7 @@ class Order3 extends \yii\db\ActiveRecord
             ['comment', 'required', 'on' => self::SCENARIO_COMMENT],
 
             [['date_order'], 'validateDateOrder'],
-
+            [['time_order'], 'validateDateTimeOrder'],
 
         ];
     }
@@ -118,6 +118,21 @@ class Order3 extends \yii\db\ActiveRecord
             $this->addError($attribute, 'Дата выбрана неправильно');
         }
 
+    }
+
+    public function validateDateTimeOrder($attribute, $params)
+    {
+        
+        if (empty($this->date_order)) {
+            $this->addError($attribute, 'Необходимо установить дату заявки');
+        }
+
+        if ($this->time_order < '09:00') {
+            $this->addError($attribute, 'Время должно быть больше 9:00');
+        }
+        // VarDumper::dump($this->attributes, 10, true);
+        // VarDumper::dump($this->errors, 10, true);
+        // die;
     }
 
     /**
