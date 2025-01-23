@@ -116,12 +116,14 @@ $statusesTitle = array_flip($statuses);
                     $view = Html::a('Просмотр', ['view', 'id' => $model->id], ['class' => 'btn btn-outline-primary']);
                     $cancel = '';
                     $cancel_modal = '';
+                    $cancel_modal2 = '';
                     $apply = '';
 
                     if ($model->status_id == $statusesTitle['Новый']) {
                         $apply = Html::a('Подтвердить', ['apply', 'id' => $model->id], ['class' => 'btn btn-outline-success',]);
                         $cancel = Html::a('Отменить', ['cancel', 'id' => $model->id], ['class' => 'btn btn-outline-warning',]);
                         $cancel_modal = Html::a('Отменить (модалка)', ['cancel-modal', 'id' => $model->id], ['class' => 'btn btn-outline-warning btn-cancel-modal',]);
+                        $cancel_modal2 = Html::a('Отменить (модалка 2)', ['cancel-modal2', 'id' => $model->id], ['class' => 'btn btn-outline-warning btn-cancel-modal',]);
                                 //     'data' => [
                                 //         'confirm' => 'Точно ли хотите удалить?',
                                 //         'method' => 'post',
@@ -137,7 +139,7 @@ $statusesTitle = array_flip($statuses);
                     //         ],
                     //     ])
                     //     : '';
-                    return "<div class='d-flex flex-wrap gap-3'>$view $apply $cancel $cancel_modal</div>";
+                    return "<div class='d-flex flex-wrap gap-3'>$view $apply $cancel $cancel_modal $cancel_modal2</div>";
                 }
             ],
         ],
@@ -161,6 +163,6 @@ $statusesTitle = array_flip($statuses);
 
         Modal::end();
 
-        $this->registerJsFile('/js/cancel-modal.js', ['depends' => JqueryAsset::class]);
+        // $this->registerJsFile('/js/cancel-modal.js', ['depends' => JqueryAsset::class]);
     }
 ?>

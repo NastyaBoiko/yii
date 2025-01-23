@@ -7,8 +7,10 @@ use app\assets\AppAsset;
 use app\widgets\Alert;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
+use yii\bootstrap5\Modal;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
+use yii\widgets\Pjax;
 
 AppAsset::register($this);
 
@@ -93,6 +95,32 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         </div>
     </div>
 </footer>
+
+<?php
+    Modal::begin([
+        'id' => 'cancel-modal2',
+        'title' => 'Отмена заказа',
+        'size' => 'modal-lg',
+    ]);
+
+    Pjax::begin([
+        'id' => 'form-cancel-pjax2',
+        'enablePushState' => false,
+        'timeout' => 5000,
+        'options' => [
+            'data-first-load' => 1,
+        ]
+    ]); 
+
+    Pjax::end();
+
+    // echo $this->render('_form-modal', [
+    //     'model_cancel' => $model_cancel,
+    // ]);
+
+    Modal::end();
+
+?>
 
 <?php $this->endBody() ?>
 </body>

@@ -126,6 +126,32 @@ class OrderController extends Controller
         }
     }
 
+    public function actionCancelModal2($id = null)
+    {
+        $model_cancel = $id 
+            ? $this->findModel($id)
+            : new Order();
+
+        $model_cancel->scenario = Order::SCENARIO_CANCEL;
+
+        if ($this->request->isPost && $model_cancel->load($this->request->post())) {
+            $model_cancel->status_id = Status::getStatusId('Отмена');
+            
+            if ($model_cancel->save()) {
+                Yii::$app->session->setFlash('cancel-modal-info', "Заказ №$model_cancel->id отменен");
+                $model_cancel->comment_admin = null;
+                
+                //return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                VarDumper::dump($model_cancel->errors, 10, true); die;
+            }
+        }
+
+        return $this->render('_form-modal2', [
+            'model_cancel' => $model_cancel,
+        ]);
+    }
+
     public function actionApply($id)
     {
         if ($model = $this->findModel($id)) {
