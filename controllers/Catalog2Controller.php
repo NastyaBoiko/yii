@@ -7,6 +7,7 @@ use app\models\Favourite;
 use app\models\Product;
 use app\models\Product2Search;
 use app\models\ReactionUser;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -27,6 +28,7 @@ class Catalog2Controller extends Controller
         $searchModel = new Product2Search();
         $dataProvider = $searchModel->search($this->request->queryParams);
         $categories = Category::getCategories();
+        // Yii::debug($searchModel->title_search);
 
         // VarDumper::dump($this->request->queryParams, 10, true); die;
 

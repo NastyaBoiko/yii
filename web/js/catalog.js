@@ -40,4 +40,26 @@ $(() => {
             }
         })
     })
+
+    $('#catalog-pjax').on('change', '#product2search-category_id', function() {
+        $('#form-product-search').submit();
+    })
+
+    $('#catalog-pjax').on('input', '#product2search-title', function() {
+        $('#product2search-title_search').val(1);
+        $('#form-product-search').submit();
+    })
+
+    $('#catalog-pjax').on('pjax:end', function() {
+        if ($('#product2search-title_search').val() == 1) {
+            $('#product2search-title').focus()
+            $('#product2search-title')[0]
+                .setSelectionRange(
+                    $('#product2search-title').val().length, 
+                    $('#product2search-title').val().length
+                )
+            $('#product2search-title_search').val() = 0
+        }
+    })
+
 })

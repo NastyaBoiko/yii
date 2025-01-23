@@ -12,6 +12,7 @@ use Yii;
  */
 class Product2Search extends Product
 {
+    public int $title_search = 0;
     /**
      * {@inheritdoc}
      */
@@ -20,7 +21,7 @@ class Product2Search extends Product
         return [
             [['id', 'count', 'like', 'dislike', 'category_id'], 'integer'],
             [['title', 'photo', 'shelf_life', 'description'], 'safe'],
-            [['price', 'weight', 'kilocalories'], 'number'],
+            [['price', 'weight', 'kilocalories', 'title_search'], 'number'],
         ];
     }
 
