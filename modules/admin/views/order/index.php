@@ -151,17 +151,20 @@ $statusesTitle = array_flip($statuses);
 
 <?php
     if ($dataProvider->count) {
-        Modal::begin([
-            'id' => 'cancel-modal',
-            'title' => 'Отмена заказа',
-            'size' => 'modal-lg',
-        ]);
+        $this->params['order'] = [
+            'model' => $model_cancel,
+        ];
+        // Modal::begin([
+        //     'id' => 'cancel-modal',
+        //     'title' => 'Отмена заказа',
+        //     'size' => 'modal-lg',
+        // ]);
 
-        echo $this->render('_form-modal', [
-            'model_cancel' => $model_cancel,
-        ]);
+        // echo $this->render('_form-modal', [
+        //     'model_cancel' => $model_cancel,
+        // ]);
 
-        Modal::end();
+        // Modal::end();
 
         // $this->registerJsFile('/js/cancel-modal.js', ['depends' => JqueryAsset::class]);
     }

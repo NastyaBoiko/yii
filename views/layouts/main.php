@@ -10,6 +10,7 @@ use yii\bootstrap5\Html;
 use yii\bootstrap5\Modal;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
+use yii\web\JqueryAsset;
 use yii\widgets\Pjax;
 
 AppAsset::register($this);
@@ -97,28 +98,35 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 </footer>
 
 <?php
-    Modal::begin([
-        'id' => 'cancel-modal2',
-        'title' => 'Отмена заказа',
-        'size' => 'modal-lg',
-    ]);
+    Yii::debug($this->params);
+    if (isset($this->params['order'])) {
 
-    Pjax::begin([
-        'id' => 'form-cancel-pjax2',
-        'enablePushState' => false,
-        'timeout' => 5000,
-        'options' => [
-            'data-first-load' => 1,
-        ]
-    ]); 
+        $this->registerJsFile('/js/cancel-modal2.js', ['depends' => JqueryAsset::class]);
 
-    Pjax::end();
 
-    // echo $this->render('_form-modal', [
-    //     'model_cancel' => $model_cancel,
-    // ]);
-
-    Modal::end();
+        Modal::begin([
+            'id' => 'cancel-modal2',
+            'title' => 'Отмена заказа',
+            'size' => 'modal-lg',
+        ]);
+    
+        // Pjax::begin([
+        //     'id' => 'form-cancel-pjax2',
+        //     'enablePushState' => false,
+        //     'timeout' => 5000,
+        //     'options' => [
+        //         'data-first-load' => 1,
+        //     ]
+        // ]); 
+    
+        echo $this->render('@app/modules/admin/views/order/_form-modal2', [
+            'model_cancel' => $this->params['order']['model'],
+        ]);
+        // Pjax::end();
+    
+    
+        Modal::end();
+    }
 
 ?>
 
