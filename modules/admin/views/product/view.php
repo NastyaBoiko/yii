@@ -44,7 +44,10 @@ $this->title = $model->title;
             'weight',
             'kilocalories',
             'shelf_life',
-            'description:ntext',
+            [
+                'attribute' => 'description',
+                'format' => 'html',
+            ],
             [
                 'attribute' => 'category_id',
                 'value' => $categories[$model->category_id],

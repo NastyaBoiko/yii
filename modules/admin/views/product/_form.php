@@ -1,5 +1,7 @@
 <?php
 
+use mihaildev\ckeditor\CKEditor;
+use mihaildev\elfinder\ElFinder;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\ActiveForm;
 
@@ -33,7 +35,15 @@ use yii\bootstrap5\ActiveForm;
 
     <?= $form->field($model, 'shelf_life')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+    <?# $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'description')->widget(CKEditor::class, [
+        'editorOptions' => ElFinder::ckeditorOptions(
+                'elfinder',
+            [
+                'preset' => 'full', //разработанны стандартные настройки basic, standard, full данную возможность не обязательно использовать
+                'inline' => false, //по умолчанию false
+        ]),
+    ]); ?>
 
 
     <div class="form-group">
