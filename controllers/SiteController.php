@@ -174,4 +174,24 @@ class SiteController extends Controller
         return $this->render('register', compact('model'));
 
     }
+
+    public function actionMail()
+    {
+        Yii::$app->mailer->htmlLayout = '@app/mail/layouts/html';
+
+        if (
+            Yii::$app->mailer
+                    ->compose('mail', [])
+                    ->setFrom('a.boiko17@mail.ru')
+                    ->setTo('a.boiko17@mail.ru')
+                    ->setSubject('Тест')
+                    ->send()
+        ) {
+            Yii::$app->session->setFlash('success', 'Почта отправлена');
+        } else {
+            Yii::$app->session->setFlash('danger', 'Почта НЕ отправлена');
+        }
+
+        return $this->render('index');
+    }
 }

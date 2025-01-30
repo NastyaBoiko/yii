@@ -34,7 +34,21 @@ $config = [
             'class' => \yii\symfonymailer\Mailer::class,
             'viewPath' => '@app/mail',
             // send all mails to a file by default.
-            'useFileTransport' => true,
+            'useFileTransport' => false,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'scheme' => 'smtps',
+                'host' => 'smtp.mail.ru',
+                'username' => 'a.boiko17@mail.ru',
+                'password' => 'Ugz0EpYuPuXgyMFWK5be',
+                'port' => 465,
+                // 'dsn' => 'native://default',
+                // 'encryption' => 'tls',
+                'options' => [
+                    'ssl' => true
+                ],
+            ],
+            // Ugz0EpYuPuXgyMFWK5be
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
