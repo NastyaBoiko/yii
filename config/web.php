@@ -62,7 +62,9 @@ $config = [
             'class' => 'app\modules\account\Module',
             'defaultRoute' => 'order/index',
         ],
-
+        'admin-lte' => [
+            'class' => 'app\modules\adminlte\Module',
+        ],
     ],
     'controllerMap' => [
         'elfinder' => [
