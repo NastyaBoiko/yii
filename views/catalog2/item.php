@@ -41,15 +41,22 @@ use yii\bootstrap5\Html;
 
                 
             </div>
-            <?= !Yii::$app->user->isGuest && !Yii::$app->user->identity->isAdmin
-                ? Html::a('Заказать', ['/account/order/create', 'product_id' => $model->id], ['class' => 'btn btn-outline-success w-100 mt-2'])
-                : "" ?>
-            <?= !Yii::$app->user->isGuest && !Yii::$app->user->identity->isAdmin
-                ? Html::a('Заказать вариант 2', ['/account/order/create2', 'product_id' => $model->id], ['class' => 'btn btn-outline-success w-100 mt-2'])
-                : "" ?>
-            <?= !Yii::$app->user->isGuest && !Yii::$app->user->identity->isAdmin
-                ? Html::a('Заказать вариант 3', ['/account/order/create3', 'product_id' => $model->id], ['class' => 'btn btn-outline-success w-100 mt-2'])
-                : "" ?>
+            <div class="d-none">
+                <?= !Yii::$app->user->isGuest && !Yii::$app->user->identity->isAdmin
+                    ? Html::a('Заказать', ['/account/order/create', 'product_id' => $model->id], ['class' => 'btn btn-outline-success w-100 mt-2'])
+                    : "" ?>
+                <?= !Yii::$app->user->isGuest && !Yii::$app->user->identity->isAdmin
+                    ? Html::a('Заказать вариант 2', ['/account/order/create2', 'product_id' => $model->id], ['class' => 'btn btn-outline-success w-100 mt-2'])
+                    : "" ?>
+                <?= !Yii::$app->user->isGuest && !Yii::$app->user->identity->isAdmin
+                    ? Html::a('Заказать вариант 3', ['/account/order/create3', 'product_id' => $model->id], ['class' => 'btn btn-outline-success w-100 mt-2'])
+                    : "" ?>
+            </div>
+            <div class="w-100 mt-2">
+                <?= !Yii::$app->user->isGuest && !Yii::$app->user->identity->isAdmin
+                    ? Html::a('В корзину', ['/cart/add', 'product_id' => $model->id], ['class' => 'btn btn-outline-success w-100 mt-2 btn-cart-add'])
+                    : "" ?>
+            </div>
         </div>
         <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
     </div>

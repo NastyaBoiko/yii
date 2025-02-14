@@ -1,6 +1,7 @@
 <?php
 
 use app\models\Product;
+use app\widgets\Alert;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\LinkPager;
 use yii\helpers\Url;
@@ -27,6 +28,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'id' => 'catalog-pjax',
         // 'enablePushState' => false,
     ]); ?>
+
+    <?= Alert::widget() ?>
+
     <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= ListView::widget([

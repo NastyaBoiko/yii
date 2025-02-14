@@ -4,6 +4,7 @@
 /** @var string $content */
 
 use app\assets\AppAsset;
+use app\models\Cart;
 use app\widgets\Alert;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
@@ -80,8 +81,34 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                     . '</li>'
         ]
     ]);
-    NavBar::end();
     ?>
+
+    <?php if (!(Yii::$app->user->isGuest || Yii::$app->user->identity->isAdmin)): ?>
+        <div class="d-flex ms-5 gap-1 text-light">
+            <div>
+                <?= Html::a('
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16" style="color:white">
+                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                    </svg>
+                    ', ['/cart/index'], ['id' => 'btn-cart']) 
+                ?>
+
+                <?php Pjax::begin([
+                    'id' => 'cart-item-count',
+                    'enablePushState' => false,
+                    'timeout' => 5000,
+                    'options' => [
+                        'data-url' => '/cart/item-count'
+                    ]
+                ]) ?>
+                    <?= Cart::getItemCount() ?>
+                <?php Pjax::end() ?>
+
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php NavBar::end(); ?>
 </header>
 
 <main id="main" class="flex-shrink-0" role="main">
@@ -135,6 +162,66 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     }
 
 ?>
+
+<?php 
+    if (!(Yii::$app->user->isGuest || Yii::$app->user->identity->isAdmin)) {
+        Modal::begin([
+            'id' => 'cart-modal',
+            'size' => 'modal-xl',
+        ]); ?>
+
+        <?php $cart_data = $this->render('@app/views/cart/index', [
+            'dataProvider' => null
+        ]) ?> 
+
+        <?php $d_none = $this->params['cart-data'] ? "" : "d-none" ?>
+
+        <div class="d-flex justify-content-between mb-5 <?= $d_none ?> cart-panel-top" >
+            <div>
+                <?= Html::a('Закрыть', '', ['class' => 'btn btn-outline-primary btn-cart-close']) ?>
+            </div>
+            
+            <div class='d-flex justify-content-end gap-3'>
+                <?= Html::a('Очистить корзину', ['/cart/clear'], ['class' => "btn btn-outline-danger btn-cart-clear"]) ?>
+    
+                <?= Html::a('Оформить заказ', ['/order/create'], ['class' => "btn btn-outline-success"]) ?>
+    
+            </div>
+        </div>
+
+        <?= $cart_data ?>
+
+        <div class="d-flex justify-content-between mt-5">
+            <div>
+                <?= Html::a('Закрыть', '', ['class' => 'btn btn-outline-primary btn-cart-close']) ?>
+            </div>
+            <div class='d-flex justify-content-end gap-3'>
+                <?= Html::a('Очистить корзину', ['/cart/clear'], ['class' => "btn btn-outline-danger btn-cart-clear $d_none btn-cart-manger"]) ?>
+    
+                <?= Html::a('Оформить заказ', ['/order/create'], ['class' => "btn btn-outline-success $d_none btn-cart-manger"]) ?>
+    
+            </div>
+        </div>
+
+
+        <?php
+        Modal::end();
+        $this->registerJsFile('/js/cart.js', ['depends' => JqueryAsset::class]);
+    }
+
+    if (!(Yii::$app->user->isGuest || Yii::$app->user->identity->isAdmin)) {
+        Modal::begin([
+            'id' => 'info-modal',
+        ]);
+
+        echo '<div id="text-error"></div>';
+
+        Modal::end();
+        $this->registerJsFile('/js/cart.js', ['depends' => JqueryAsset::class]);
+    }
+    
+?>
+
 
 <?php $this->endBody() ?>
 </body>

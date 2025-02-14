@@ -71,6 +71,26 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * Gets query for [[Carts]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCarts()
+    {
+        return $this->hasMany(Cart::class, ['user_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[OrderShops]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrderShops()
+    {
+        return $this->hasMany(OrderShop::class, ['user_id' => 'id']);
+    }
+
+    /**
      * Gets query for [[Role]].
      *
      * @return \yii\db\ActiveQuery
