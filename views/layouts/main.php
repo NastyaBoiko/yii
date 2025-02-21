@@ -85,26 +85,23 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
     <?php if (!(Yii::$app->user->isGuest || Yii::$app->user->identity->isAdmin)): ?>
         <div class="d-flex ms-5 gap-1 text-light">
-            <div>
-                <?= Html::a('
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16" style="color:white">
-                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                    </svg>
-                    ', ['/cart/index'], ['id' => 'btn-cart']) 
-                ?>
+            <?= Html::a('
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16" style="color:white">
+                    <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                </svg>
+                ', ['/cart/index'], ['id' => 'btn-cart']) 
+            ?>
 
-                <?php Pjax::begin([
-                    'id' => 'cart-item-count',
-                    'enablePushState' => false,
-                    'timeout' => 5000,
-                    'options' => [
-                        'data-url' => '/cart/item-count'
-                    ]
-                ]) ?>
-                    <?= Cart::getItemCount() ?>
-                <?php Pjax::end() ?>
-
-            </div>
+            <?php Pjax::begin([
+                'id' => 'cart-item-count',
+                'enablePushState' => false,
+                'timeout' => 5000,
+                'options' => [
+                    'data-url' => '/cart/item-count'
+                ]
+            ]) ?>
+                <?= Cart::getItemCount() ?>
+            <?php Pjax::end() ?>
         </div>
     <?php endif; ?>
 
