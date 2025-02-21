@@ -2,6 +2,10 @@
     cursor: pointer;
 }
 
+.img_cart_product {
+    width: 200px;
+}
+
 img {
     padding: 7px;
     /* border: 2px solid navy; */

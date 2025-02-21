@@ -4,15 +4,16 @@ use yii\bootstrap5\Html;
 ?>
 <div class="card">
   <div class="card-body">
-    <h5 class="card-title"></h5>
     <div class="d-flex gap-3">
-      <?= Html::img('/img/' . $model->product->photo, ['class' => 'w-25']) ?>
-      <?= Html::a($model->product->title, ['catalog2/view', 'id' => $model->product->id], ['data-pjax' => 0])  ?>
+      <?= Html::img('/img/' . $model->product->photo, ['class' => 'img_cart_product']) ?>
+      <div class="d-flex flex-column">
+        <?= Html::a($model->product->title, ['catalog2/view', 'id' => $model->product->id], ['data-pjax' => 0])  ?>
+        <div class="">
+          Цена: <?= $model->product->price ?>
+        </div>
+      </div>
     </div>
 
-    <div class="">
-      Цена: <?= $model->product->price ?>
-    </div>
 
     <div class="d-flex justify-content-between mt-3">
       <div class="">

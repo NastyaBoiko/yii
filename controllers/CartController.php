@@ -42,26 +42,21 @@ class CartController extends Controller
     public function actionIndex()
     {
         $dataProvider = null;
+        $cart = null;
+
         if ($cart = Cart::findOne(['user_id' => Yii::$app->user->id])) {
             $dataProvider = new ActiveDataProvider([
                 'query' => CartItem::find(['cart_id' => $cart->id])
                         ->with('product'),
-                /*
                 'pagination' => [
-                    'pageSize' => 50
+                    'pageSize' => 2
                 ],
-                'sort' => [
-                    'defaultOrder' => [
-                        'id' => SORT_DESC,
-                    ]
-                ],
-                */
             ]);
         }
 
-
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'cart' => $cart,
         ]);
     }
 

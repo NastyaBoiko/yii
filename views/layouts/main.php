@@ -128,7 +128,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 </footer>
 
 <?php
-    Yii::debug($this->params);
+    // Yii::debug($this->params);
     if (isset($this->params['order'])) {
 
         $this->registerJsFile('/js/cancel-modal2.js', ['depends' => JqueryAsset::class]);
@@ -165,15 +165,16 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         Modal::begin([
             'id' => 'cart-modal',
             'size' => 'modal-xl',
+            'title' => 'Корзина',
         ]); ?>
 
         <?php $cart_data = $this->render('@app/views/cart/index', [
             'dataProvider' => null
         ]) ?> 
 
-        <?php $d_none = $this->params['cart-data'] ? "" : "d-none" ?>
+        <?php //$d_none = $this->params['cart-data'] ? "" : "d-none" ?>
 
-        <div class="d-flex justify-content-between mb-5 <?= $d_none ?> cart-panel-top" >
+        <div class="d-flex justify-content-between mb-5 d-none cart-panel-top" >
             <div>
                 <?= Html::a('Закрыть', '', ['class' => 'btn btn-outline-primary btn-cart-close']) ?>
             </div>
@@ -181,7 +182,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
             <div class='d-flex justify-content-end gap-3'>
                 <?= Html::a('Очистить корзину', ['/cart/clear'], ['class' => "btn btn-outline-danger btn-cart-clear"]) ?>
     
-                <?= Html::a('Оформить заказ', ['/order/create'], ['class' => "btn btn-outline-success"]) ?>
+                <?= Html::a('Оформить заказ', ['/account/order-shop'], ['class' => "btn btn-outline-success"]) ?>
     
             </div>
         </div>
@@ -193,9 +194,9 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 <?= Html::a('Закрыть', '', ['class' => 'btn btn-outline-primary btn-cart-close']) ?>
             </div>
             <div class='d-flex justify-content-end gap-3'>
-                <?= Html::a('Очистить корзину', ['/cart/clear'], ['class' => "btn btn-outline-danger btn-cart-clear $d_none btn-cart-manger"]) ?>
+                <?= Html::a('Очистить корзину', ['/cart/clear'], ['class' => "btn btn-outline-danger btn-cart-clear  d-none btn-cart-manger"]) ?>
     
-                <?= Html::a('Оформить заказ', ['/order/create'], ['class' => "btn btn-outline-success $d_none btn-cart-manger"]) ?>
+                <?= Html::a('Оформить заказ', ['/account/order-shop'], ['class' => "btn btn-outline-success d-none btn-cart-manger"]) ?>
     
             </div>
         </div>

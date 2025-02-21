@@ -34,7 +34,8 @@ class OrderShopItem extends \yii\db\ActiveRecord
     {
         return [
             [['order_id', 'product_id', 'product_title', 'product_amount', 'product_cost'], 'required'],
-            [['order_id', 'product_id', 'product_amount', 'product_cost'], 'integer'],
+            [['order_id', 'product_id', 'product_amount'], 'integer'],
+            [['total_amount', 'product_cost'], 'number'],
             [['product_title'], 'string', 'max' => 255],
             [['order_id'], 'exist', 'skipOnError' => true, 'targetClass' => OrderShop::class, 'targetAttribute' => ['order_id' => 'id']],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::class, 'targetAttribute' => ['product_id' => 'id']],
