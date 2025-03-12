@@ -41,8 +41,7 @@ use yii\widgets\Pjax;
 
         <?= $form->field($model, 'check')->checkbox()->label('Другое место получения заказа') ?>
         
-        <?= $form->field($model, 'comment')->textInput(['maxlength' => true, 'disabled' => ! $model->check]) ?> 
-
+        <?= $form->field($model, 'comment', ['options' => ['class' => 'd-none mb-3 comment-field']])->textInput(['maxlength' => true, 'disabled' => ! $model->check]) ?> 
 
         <div class="form-group">
             <?= Html::submitButton('Создать', ['class' => 'btn btn-outline-success']) ?>

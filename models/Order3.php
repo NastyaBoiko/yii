@@ -48,8 +48,9 @@ class Order3 extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['date_order', 'time_order', 'address', 'user_id', 'status_id', 'product_id', 'pay_type_id'], 'required'],
+            [['date_order', 'time_order', 'address', 'user_id', 'status_id', 'product_id', 'pay_type_id', 'year'], 'required'],
             [['user_id', 'status_id', 'product_id', 'pay_type_id', 'outpost_id'], 'integer'],
+            ['year', 'integer', 'min' => '1900'],
             [['address', 'comment', 'comment_admin'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::class, 'targetAttribute' => ['product_id' => 'id']],

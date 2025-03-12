@@ -1,7 +1,9 @@
 <?php
 
 use app\models\Status;
+use yii\bootstrap5\Modal;
 use yii\helpers\Html;
+use yii\web\JqueryAsset;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
@@ -16,18 +18,18 @@ $this->title = "Заказ №" . $model->id
 <div class="order-view">
 
     <h3><?= Html::encode($this->title) ?></h3>
-
-    <p>
-        <?= Html::a('Назад', ['index'], ['class' => 'btn btn-outline-info']) ?>
-        <?= $model->status_id == Status::getStatusId('Новый') 
-            ? Html::a('Удалить', ['delete', 'id' => $model->id], [
-                'class' => 'btn btn-outline-danger',
-                'data' => [
-                    'confirm' => 'Точно ли хотите удалить?',
-                    'method' => 'post',
-                ],
-            ])
-            : ''
+    <p id='block-btn' >
+        <?= Html::a('Назад', ['index'], ['class' => 'btn btn-outline-primary']) ?>
+        
+        <?= $model->status->id == Status::getStatusId('Новый')
+                ? Html::a('Удалить', ['delete', 'id' => $model->id], [
+                    'class' => 'btn btn-outline-danger btn-confirm',
+                    // 'data' => [
+                    //     'confirm' => 'Вы точно хотите удалить данный заказ?',
+                    //     'method' => 'post',
+                    // ],
+                ]) 
+                : ""
         ?>
     </p>
 
@@ -75,3 +77,5 @@ $this->title = "Заказ №" . $model->id
     ]) ?>
 
 </div>
+
+<?= $this->render('modal')?>

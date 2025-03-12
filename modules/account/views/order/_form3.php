@@ -3,6 +3,7 @@
 use yii\bootstrap5\Html;
 use yii\bootstrap5\ActiveForm;
 use yii\web\JqueryAsset;
+use yii\widgets\MaskedInput;
 use yii\widgets\Pjax;
 
 /** @var yii\web\View $this */
@@ -35,6 +36,10 @@ use yii\widgets\Pjax;
 
         <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
 
+        <?= $form->field($model, 'year')->widget(MaskedInput::class, [
+            'mask' => '9999',
+        ]) ?>
+
         <?= $form->field($model, 'pay_type_id')->textInput()->dropDownList($payTypes, ['prompt' => 'Выберите способ оплаты']) ?>
 
         <?= $form->field($model, 'outpost_id')->textInput()->dropDownList($outposts, ['prompt' => 'Выберите пункт выдачи', 'disabled' => $model->check]) ?> 
@@ -42,6 +47,7 @@ use yii\widgets\Pjax;
         <?= $form->field($model, 'check')->checkbox()->label('Другое место получения заказа') ?>
         
         <?= $form->field($model, 'comment')->textInput(['maxlength' => true, 'disabled' => ! $model->check]) ?> 
+        <?php # $model->check ? $form->field($model, 'comment')->textInput(['maxlength' => true, 'disabled' => ! $model->check]) : '' ?> 
 
 
         <div class="form-group">

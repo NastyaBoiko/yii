@@ -78,7 +78,7 @@ class OrderController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate($product_id)
+    public function actionCreate($product_id = 1)
     {
         $model = new Order(['scenario' => Order::SCENARIO_OUTPOST]);
         $model->product_id = $product_id;
@@ -118,7 +118,7 @@ class OrderController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate2($product_id)
+    public function actionCreate2($product_id = 1)
     {
         $model = new Order2();
         $model->product_id = $product_id;
@@ -154,7 +154,7 @@ class OrderController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate3($product_id)
+    public function actionCreate3($product_id = 1)
     {
         $model = new Order3(['scenario' => Order::SCENARIO_OUTPOST]);
         $model->product_id = $product_id;

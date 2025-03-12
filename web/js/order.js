@@ -5,6 +5,9 @@ $(() => {
             // comment - check
             $('#order-comment').prop('disabled', false);
             $('#order-outpost_id').prop('disabled', true);
+            $('#order-comment').parents('.comment-field').removeClass('d-none');
+            // $('#order-outpost_id').prop('disabled', true);
+
             $('#order-outpost_id').removeClass('is-invalid');
             $('#order-outpost_id').removeClass('is-valid');
             $('#order-comment').addClass('is-invalid');
@@ -13,6 +16,8 @@ $(() => {
             $('#form-order').yiiActiveForm("add", {"id":"order-comment","name":"comment","container":".field-order-comment","input":"#order-comment","error":".invalid-feedback","validate":function (attribute, value, messages, deferred, $form) {yii.validation.string(value, messages, {"message":"Значение «Комментарий к заказу» должно быть строкой.","max":255,"tooLong":"Значение «Комментарий к заказу» должно содержать максимум 255 символа.","skipOnEmpty":1});}});
         } else {
             // outpost - uncheck
+            $('#order-comment').parents('.comment-field').addClass('d-none');
+
             $('#order-comment').val('');
             $('#order-comment').prop('disabled', true);
             $('#order-outpost_id').prop('disabled', false);
