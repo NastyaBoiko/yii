@@ -79,6 +79,11 @@ $config = [
         'admin-lte' => [
             'class' => 'app\modules\adminlte\Module',
         ],
+        'dmf' => [
+            'class' => 'app\modules\dmf\Module',
+            'defaultRoute' => 'item',
+
+        ],
     ],
     'controllerMap' => [
         'elfinder' => [
